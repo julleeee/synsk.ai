@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState, useEffect } from 'react';
 import './App.css';
+import Heading from './components/Heading';
+import Input from './components/Input';
+import ProgressBar from './components/Progressbar';
+
 
 function App() {
+
+  const [number, setNumber] = useState< null | number>(null);
+  const [clicked, setClicked] = useState<boolean>(false);
+  const [progressComplete, setProgressComplete] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Reset progress complete status when clicked changes
+    setProgressComplete(false);
+  }, [clicked]);
+
+  const handleProgressComplete = () => {
+    setProgressComplete(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  <>
+    <Heading title={"Synsk.AI"} />
+    {!clicked && <Input num={number} setNum={setNumber} setClicked={setClicked}/>}
+    <ProgressBar clicked={clicked} onComplete={handleProgressComplete} />
+    {progressComplete && <p> Tallet du tenkte på var: {number} </p>}
+  </>
+  )
 }
 
 export default App;
